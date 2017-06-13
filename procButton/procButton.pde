@@ -111,3 +111,10 @@ void draw(){
   }
  }
 }
+
+void serialEvent (Serial myPort) {
+  // get the byte:
+  int inByte = myPort.read();
+  // print it:
+  println(inByte);
+}
