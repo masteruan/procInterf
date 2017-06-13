@@ -1,5 +1,10 @@
 // Processing button
 
+import processing.serial.*;
+
+Serial myPort;  // Create object from Serial class
+
+
 int posX[] = {10, 180, 350};
 int posY[] = {10, 110, 210, 310, 410};
 
@@ -14,6 +19,8 @@ void setup(){
  background(255);
  stroke(0);
  noFill();
+ String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
+ myPort = new Serial(this, portName, 9600);
 }
 
 void draw(){
@@ -29,14 +36,17 @@ void draw(){
 
   if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH){
    delay(200);
-   println("The mouse is pressed and over the button");
+   println("Primo bottone");
+   myPort.write("A\n");
    fill(0);
    //do stuff
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
    delay(200);
    println("Second button");
+   myPort.write("_spegni\n");
    fill(0);
+
    //do stuff
   }
   if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){

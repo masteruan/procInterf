@@ -1,0 +1,33 @@
+vois setup()
+{
+ Serial.begin(9600);
+ Serial.flush();
+}
+
+void loop()
+{
+  if (stringComplete) {
+    Serial.println(input);
+    seriale();
+    input = "";
+    stringComplete = false;
+  }
+
+  void seriale() {
+  if (input[0] == 'A'){
+    digitalWrite(13, HIGH);
+  }
+
+  void serialEvent() {
+    Serial.flush();
+    delay(20);
+    // Read any serial input
+    while (Serial.available())
+    {
+        inChar = (char)Serial.read(); // Read in one char at a time
+        input += inChar;
+        if (inChar == '\n') {
+          stringComplete = true;
+        }
+    }
+  }
