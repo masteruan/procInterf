@@ -12,6 +12,12 @@ boolean stringComplete = false;
 int posX[] = {10, 180, 350};
 int posY[] = {10, 110, 210, 310, 410};
 
+String[] pulsanti = {"nome1", "nome2", "nome3",
+                     "nome4", "nome5", "nome6",
+                     "nome7", "nome8", "nome9",
+                     "nome10","nome11","nome12",
+                     "nome13","nome14","nome15"};
+
 int dimW = 150;
 int dimH = 80;
 
@@ -32,17 +38,27 @@ void setup(){
 
 void draw(){
  background(255);
+ noFill();
+
+ // menu giochi
+ rect (520, 10, 160,570);
  fill(0);
  textFont(f,20);
-
- text("Giochi risolti:", 540,30);
- text(sommario[0], 540, 60);
-
-
+ text("Giochi risolti:", 525,35);
+ text(sommario[0], 550, 60);
+ fill(100);
+ rect (525, 600, dimW, dimH);
+ fill(0);
+ text("Controllo giochi", 530, 640);
 
  for (int n = 0; n < 5; n = n+1) {
    for (int i = 0; i < 3; i = i+1) {
+     fill(100);
      rect (psX[i], psY[n], dimW, dimH);
+     fill(0);
+
+     text (pulsanti[n+n+n+i], psX[i] + 40, psY[n]+40);
+
    }
  }
 
@@ -55,27 +71,27 @@ void draw(){
 
 
  if(mousePressed){
+  // pulsante menu giochi
+  if(mouseX > 525 && mouseX < 525 + dimW && mouseY > 600 && mouseY < 600 + dimH){
+  delay(200);
+  println("menu giochi");
+  myPort.write("_lettura\n");
 
+  }
   if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH){
    delay(200);
    println("Primo bottone");
    myPort.write("A\n");
-   fill(0);
-   //do stuff
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
    delay(200);
    println("Second button");
    myPort.write("_spegni\n");
-   fill(0);
-
-   //do stuff
   }
   if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
    delay(200);
    println("Thirth button");
    myPort.write("_lettura\n");
-
   }
   if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
    delay(200);
