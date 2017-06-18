@@ -5,6 +5,9 @@ import processing.serial.*;
 PFont f;
 PImage img;
 
+int buttColour = 100;
+int textColour = 0;
+
 Serial myPort;  // Create object from Serial class
 final boolean selectSerial = false; // select the selection of serial
 final boolean debug = true;
@@ -89,27 +92,27 @@ void draw(){
  background(0);
  noFill();
 
+ // Logo
  image(img, 40, 470, 400, 200);
+
  // menu giochi
  fill(255);
  rect (520, 10, 160,570);
- fill(0);
+ fill(buttColour);
+ rect (525, 600, dimW, dimH);
+ fill(textColour);
  textFont(f,20);
  text("Giochi risolti:", 525,35);
- text(sommario[0], 550, 60);
- fill(100);
- rect (525, 600, dimW, dimH);
- fill(0);
+ text(sommario[0], 525, 60);
  text("Controllo giochi", 530, 640);
 
+ // buttons and buttons text
  for (int n = 0; n < 5; n = n+1) {
    for (int i = 0; i < 3; i = i+1) {
-     fill(100);
+     fill(buttColour);
      rect (psX[i], psY[n], dimW, dimH);
-     fill(0);
-
-     text (pulsanti[n+n+n+i], psX[i] + 40, psY[n]+40);
-
+     fill(textColour);
+     text (pulsanti[n+n+n+i], psX[i] + 40, psY[n]+42);
    }
  }
 
@@ -120,7 +123,7 @@ void draw(){
    input = "";
  }
 
-
+ // Mouse Action
  if(mousePressed){
   // pulsante menu giochi
   if(mouseX > 525 && mouseX < 525 + dimW && mouseY > 600 && mouseY < 600 + dimH){
@@ -220,7 +223,7 @@ void draw(){
 }
 
 void serialEvent (Serial myPort) {
-  inChar = (char)myPort.read();// (char)myPort.read();
+  inChar = (char)myPort.read();
   input += inChar;
   if(inChar == '\r'){
    stringComplete = true;
