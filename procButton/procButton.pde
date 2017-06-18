@@ -1,9 +1,14 @@
 // Processing button
 
+import static javax.swing.JOptionPane.*;
 import processing.serial.*;
 PFont f;
+PImage img;
 
 Serial myPort;  // Create object from Serial class
+final boolean selectSerial = false; // select the selection of serial
+final boolean debug = true;
+
 char inChar;
 String input;
 String[] sommario = {""};
@@ -25,22 +30,68 @@ int psX[] = {posX[0], posX[1], posX[2]};
 int psY[] = {posY[0], posY[1], posY[2], posY[3], posY[4]};
 
 void setup(){
+ String COMx, COMlist = "";
  size(700,700);
  f = createFont("Arial",16,true);
- println(Serial.list());
+ img = loadImage("logo.png");
+
  background(255);
  stroke(0);
  noFill();
 
+ if (!selectSerial){
+ printArray(Serial.list());
  String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
  myPort = new Serial(this, portName, 9600);
+ }
+
+ if(selectSerial){
+ /*
+  Other setup code goes here - I put this at
+  the end because of the try/catch structure.
+*/
+  try {
+    if(debug) printArray(Serial.list());
+    int i = Serial.list().length;
+    if (i != 0) {
+      if (i >= 2) {
+        // need to check which port the inst uses -
+        // for now we'll just let the user decide
+        for (int j = 0; j < i;) {
+          COMlist += char(j+'a') + " = " + Serial.list()[j];
+          if (++j < i) COMlist += ",  ";
+        }
+        COMx = showInputDialog("Which COM port is correct? (a,b,..):\n"+COMlist);
+        if (COMx == null) exit();
+        if (COMx.isEmpty()) exit();
+        i = int(COMx.toLowerCase().charAt(0) - 'a') + 1;
+      }
+      String porteName = Serial.list()[i-1];
+      if(debug) println(porteName);
+      myPort = new Serial(this, porteName, 9600); // change baud rate to your liking
+      myPort.bufferUntil('\n'); // buffer until CR/LF appears, but not required..
+    }
+    else {
+      showMessageDialog(frame,"Device is not connected to the PC");
+      exit();
+    }
+  }
+  catch (Exception e)
+  { //Print the type of error
+    showMessageDialog(frame,"COM port is not available (may\nbe in use by another program)");
+    println("Error:", e);
+    exit();
+  }
+ }
 }
 
 void draw(){
- background(255);
+ background(0);
  noFill();
 
+ image(img, 40, 470, 400, 200);
  // menu giochi
+ fill(255);
  rect (520, 10, 160,570);
  fill(0);
  textFont(f,20);
@@ -142,6 +193,24 @@ void draw(){
    //do stuff
   }
   if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[3] && mouseY < psY[3] + dimH ){
+   delay(200);
+   println("Second button");
+   fill(0);
+   //do stuff
+  }
+  if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[4] && mouseY < psY[4] + dimH ){
+   delay(200);
+   println("Second button");
+   fill(0);
+   //do stuff
+  }
+  if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[4] && mouseY < psY[4] + dimH ){
+   delay(200);
+   println("Second button");
+   fill(0);
+   //do stuff
+  }
+  if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[4] && mouseY < psY[4] + dimH ){
    delay(200);
    println("Second button");
    fill(0);
