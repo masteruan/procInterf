@@ -59,63 +59,67 @@ String input = ""; //String
 char inChar ;
 
 // input Variables
-int games[] = {A0,A1,A2,A3,A4,A5,A6,A7};
+int games[] = {A0,A1,A2,A3,A4,A5};
 
 int in_cella1 = A0;
 boolean sign_cella1 = true;
 boolean OK_cella1 = false;
 
-int in_cella2 = ;
+int in_cella2 = A1 ;
 boolean sign_cella2 = false;
 boolean OK_cella2 = false;
 
-int in_cella3 = ;
+int in_cella3 = A2;
 boolean sign_cella3 = true;
 boolean OK_cella3 = false;
 
-int in_cella4 = ;
+int in_cella4 = A3;
 boolean sign_cella4 = true;
 boolean OK_cella4 = false;
 
-int in_fusibili = ;
+int in_fusibili = A4;
 boolean sign_fusibili = true;
 boolean OK_fusibili = false;
 
-int in_grata = ;
+int in_grata = A5;
 boolean sign_grata = true;
 boolean OK_grata = false;
 
 // out
-int M1 = ; // arduino nella grata
-int L1 = ; // neon
-int L2 = ; // lampeggiante
+int M1 = 25; // arduino nella grata
+int L1 = 26; // neon
+int L2 = 27; // lampeggiante
 
 // calamite
-int C1 = ; //armadio cella uno
-int C2 = ; //polsi poltrona
-int C3 = ; //scatola cella tre
-int C4 = ; //scatola cella quattro
-int C5 = ; //scatola dopo fusibili in corrdoio
-int C6 = ; //grata
+int C1 = 10; //armadio cella uno
+int C2 = 11; //polsi poltrona
+int C3 = 12; //scatola cella tre
+int C4 = 22; //scatola cella quattro
+int C5 = 23; //scatola dopo fusibili in corrdoio
+int C6 = 24; //grata
 
 // Porte
-int P1 = ;
-int P2 = ;
-int P3 = ;
-int P4 = ;
-int P5 = ;
-int P6 = ;
-int P7 = ;
-int P8 = ;
+int P1 = 2;
+int P2 = 3;
+int P3 = 4;
+int P4 = 5;
+int P5 = 6;
+int P6 = 7;
+int P7 = 8;
+int P8 = 9;
 
 void setup() {
   Serial.flush();
 
   // OUTPUT
-  for (int i = 2; i < 7; i++){
+  // da 2 a 12
+  for (int i = 2; i < 13; i++){
     pinMode(i, OUTPUT);
   }
-  
+  // da 22 a 27
+  for (int i = 22; i < 28; i++){
+    pinMode(i, OUTPUT);
+  }
   // INPUT
   // This input give FALSE if the input is open TRUE if the input is closed
   for (int i = 0; i < 13; i++){
@@ -151,7 +155,7 @@ void game () {
       OK_cella4 = false;
       OK_fusibili = false;
       OK_grata = false;
-      
+
       // Close all doors
       digitalWrite(P1, HIGH);
       digitalWrite(P2, HIGH);
@@ -161,24 +165,24 @@ void game () {
       digitalWrite(P6, HIGH);
       digitalWrite(P7, HIGH);
       digitalWrite(P8, HIGH);
-      
+
       // off lights
       digitalWrite(L1, LOW);
       digitalWrite(L2, LOW);
-      
+
       start_game = false;
       game_started = true;
       Serial.println("gameStarted");
   }
 
   else if (game_started){
-    digitalWrite(valvole, HIGH);
-    sign_valvole = digitalRead(in_valvole);
-    if ((!sign_valvole || H_valvole) && !OK_valvole){
+    //digitalWrite(valvole, HIGH);
+    //sign_valvole = digitalRead(in_valvole);
+    if (!sign_valvole && !OK_valvole){
     Serial.println("valvoleDone");
-    digitalWrite(danger, HIGH); // switch off "DANGER"
-    digitalWrite(motore, HIGH); // switch on motor
-    digitalWrite(M1, LOW); // open the door
+    //digitalWrite(danger, HIGH); // switch off "DANGER"
+    //digitalWrite(motore, HIGH); // switch on motor
+    //digitalWrite(M1, LOW); // open the door
     OK_valvole = true;
     }
     delay(10);
@@ -321,7 +325,7 @@ void lettura() {
   sign_fusibili = digitalRead(in_fusibili);
   delay(10);
   sign_grata = digitalRead(in_grata);
-  
+
   if (!sign_valvole){
     Serial.println("valvole risolte");
   }
