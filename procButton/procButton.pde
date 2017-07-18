@@ -32,6 +32,10 @@ int dimH = 80;
 int psX[] = {posX[0], posX[1], posX[2]};
 int psY[] = {posY[0], posY[1], posY[2], posY[3], posY[4]};
 
+// set the font
+PFont myFont;
+
+
 void setup(){
  String COMx, COMlist = "";
  size(700,700);
@@ -114,6 +118,10 @@ void draw(){
      fill(textColour);
      text (pulsanti[n+n+n+i], psX[i] + 40, psY[n]+42);
    }
+  // Text Label
+  noStroke();
+  fill(150);
+  text("Hello", 5, 5, 200, 75);
  }
 
  if (stringComplete) {
