@@ -2,52 +2,53 @@
  Main Hostel
  18 Luglio 2017
  v 1.0
+ Input OK
 
-OUTPUT
-Porte
-P1 cella uno
-P2 cella due
-P3 cella tre
-P4 cella quattro
-P5 fake
-P6 porta spavento
-P7 porta uscita
-P8 porta ingresso
+ OUTPUT
+ Porte
+ P1 cella uno
+ P2 cella due
+ P3 cella tre
+ P4 cella quattro
+ P5 fake
+ P6 porta spavento
+ P7 porta uscita
+ P8 porta ingresso
 
-Calamite
-C1 armadio cella uno
-C2 polsi poltrona
-C3 scatola cella tre
-C4 scatola cella quattro
-C5 scatola dopo fusibili in corrdoio
-C6 grata
+ Calamite
+ C1 armadio cella uno
+ C2 polsi poltrona
+ C3 scatola cella tre
+ C4 scatola cella quattro
+ C5 scatola dopo fusibili in corrdoio
+ C6 grata
 
-Arduino
-M1 Grata
+ Arduino
+ M1 Grata
 
-Luci
-L1 neon
-L2 lampeggiante
+ Luci
+ L1 neon
+ L2 lampeggiante
 
-INPUT
-G1 tastierino numerico cella uno
-G2 interruttore cella 2 stacca polsi
-G3 cavi jack per scatola cella tre
-G4 deviatori tre posizioni
-G5 leva apricelle
-G6 fusibili corridoio
-G7 detonatore
-G8 scansione retina
+ INPUT
+ G1 tastierino numerico cella uno
+ G2 interruttore cella 2 stacca polsi
+ G3 cavi jack per scatola cella tre
+ G4 deviatori tre posizioni
+ G5 leva apricelle
+ G6 fusibili corridoio
+ G7 detonatore
+ G8 scansione retina
 
-Instructions
-Send to serial
-"_preparation" to close all the doors and switch on all the lights
-"_startGame" to start the game
-"_openAll" open all the doors
+ Instructions
+ Send to serial
+ "_preparation" to close all the doors and switch on all the lights
+ "_startGame" to start the game
+ "_openAll" open all the doors
 */
 
 // Libraries
-#include "Arduino.h"
+
 
 // switch
 boolean start_game = false;
@@ -109,11 +110,10 @@ int P7 = 8;
 int P8 = 9;
 
 void setup() {
-  Serial.flush();
 
   // OUTPUT
-  // da 2 a 12
-  for (int i = 2; i < 13; i++){
+  // da 2 a 13
+  for (int i = 2; i < 14; i++){
     pinMode(i, OUTPUT);
   }
   // da 22 a 27
@@ -122,7 +122,7 @@ void setup() {
   }
   // INPUT
   // This input give FALSE if the input is open TRUE if the input is closed
-  for (int i = 0; i < 13; i++){
+  for (int i = 0; i < 6; i++){
       pinMode(games[i], INPUT_PULLUP);
   }
 
@@ -132,6 +132,7 @@ void setup() {
 
   Serial.println("################");
   Serial.println("You are Welcome!");
+  Serial.flush();
 }
 
 void loop() {
@@ -313,6 +314,36 @@ void game () {
   }
 }
 
+
+void seriale() {
+  if (input[0] == 'A'){
+    }
+  else if (input == "_spegni\n") {
+
+  }
+  else if (input == "_lettura\n") {
+    lettura();
+  }
+
+  // start
+  else if (input == "_startGame\n" && !start_game){
+    start_game = true;
+    game_started = false;
+  }
+
+  // preparation
+  //(remember the big box that have the "scrocco" not electromagnets)
+  else if (input == "_preparation\n" && !preparation){
+  preparation = true;
+  Serial.println("Go to close all the doors!");
+  }
+  // open all
+  else if (input == "_openAll\n"){
+  // open all the doors
+
+  }
+}
+
 void lettura() {
   sign_cella1 = digitalRead(in_cella1);
   delay(10);
@@ -326,50 +357,30 @@ void lettura() {
   delay(10);
   sign_grata = digitalRead(in_grata);
 
-  if (!sign_valvole){
-    Serial.println("valvole risolte");
+  if (!sign_cella1){
+    Serial.println("cella uno OK");
   }
-  delay(100);
-  if (!sign_generatore){
-    Serial.println("generatore risolto");
+  delay(50);
+  if (!sign_cella2){
+    Serial.println("cella due OK");
   }
-  delay(100);
-  if (!sign_motore){
-    Serial.println("motore risolte");
+  delay(50);
+  if (!sign_cella3){
+    Serial.println("cella tre OK");
   }
-  delay(100);
-  if (!sign_interruttori){
-    Serial.println("interruttori risolti");
+  delay(50);
+  if (!sign_cella4){
+    Serial.println("cella quattro OK");
   }
-  delay(100);
-  if (!sign_stereo){
-    Serial.println("stereo risolte");
+  delay(50);
+  if (!sign_fusibili){
+    Serial.println("fusibili OK");
   }
-  delay(100);
-  if(!sign_culla){
-    Serial.println("culla risolta");
+  delay(50);
+  if (!sign_grata){
+    Serial.println("grata OK");
   }
-  delay(100);
-  if(!sign_croce){
-    Serial.println("croce risolta");
-  }
-  delay(100);
-  if(!sign_foto){
-    Serial.println("foto risolta");
-  }
-  delay(100);
-  if(!sign_timone){
-    Serial.println("timone risolto");
-  }
-  delay(100);
-  if(!sign_orologi){
-    Serial.println("orologi risolti");
-  }
-  delay(100);
-  if(!sign_organo){
-    Serial.println("organo risolto");
-  }
-  delay(100);
+  Serial.print("\r");
 
 }
 
@@ -384,170 +395,6 @@ void serialEvent() {
     input += inChar;
     if (inChar == '\n') {
       stringComplete = true;
-    }
-  }
-}
-
-void seriale() {
-  int index = input.indexOf(',');
-  int pin;
-  if(index != -1){
-    for (int k=0; k<35; k++){
-      if (input.substring(0,index) == outputs[k].str)
-        pin = outputs[k].pin;
-    }
-    int state = (input.substring(index+1,index+2)).toInt();
-    digitalWrite(pin,state);
-  for (int k=0; k<13; k++){
-      if (input.substring(0,index) == okHints[k].str)
-        okHints[k].OK = true;
-    }
-  }
-
-  // animations
-  else if (input == "_vent\n")
-  {
-  digitalWrite(ventilatore, HIGH);
-  delay(5000);
-  digitalWrite(candele, LOW);
-  delay(200);
-  digitalWrite(ventilatore, LOW);
-  digitalWrite(luce_primo, HIGH);
-  }
-  else if (input == "_nano\n"){
-    digitalWrite(nano, LOW);
-    delay(200);
-    digitalWrite(nano, HIGH);
-  }
-
-  // start
-  else if (input == "_startGame\n" && !start_game){
-    start_game = true;
-    game_started = false;
-  }
-
-  // second floor
-  else if (input == "_secondFloor\n" && !second_floor){
-  second_floor = true;
-  Serial.println("Gamers on second floors!");
-  }
-  // scatola grande
-  else if (input == "_scatolaGrande\n" && !scatolaGrande){
-  scatolaGrande = true;
-  digitalWrite(M8, LOW);
-  // Special Audio cross
-  digitalWrite(4, 0);
-  digitalWrite(5, 0);
-  myDFPlayer.volume(20); // min = 0 max = 30
-  myDFPlayer.play(7);
-  delay(50);
-  }
-  // preparation
-  //(remember the big box that have the "scrocco" not electromagnets)
-  else if (input == "_preparation\n" && !preparation){
-  preparation = true;
-  Serial.println("Go to close all the doors!");
-  digitalWrite(organo,HIGH);
-  // close all the doors
-  digitalWrite(M1, HIGH);
-  digitalWrite(M2, HIGH);
-  digitalWrite(M3, HIGH);
-  digitalWrite(M4, HIGH);
-  digitalWrite(M5, HIGH);
-  digitalWrite(M6, HIGH);
-  digitalWrite(M7, LOW); // scatola piccola
-  digitalWrite(M8, HIGH);
-  digitalWrite(M9, HIGH);
-  digitalWrite(M10, HIGH);
-  digitalWrite(monaco, HIGH);
-  digitalWrite(timone, HIGH);
-  digitalWrite(culla_gira, HIGH);
-  // switch on all the lights
-  digitalWrite(luce_primo, HIGH);
-  delay(200);
-  digitalWrite(luce_secondo, HIGH);
-  delay(200);
-  digitalWrite(luce_terzo, HIGH);
-  delay(200);
-  digitalWrite(luce_quarto, HIGH);
-  delay(200);
-  digitalWrite(organo_start,HIGH);
-  delay(2000);
-  digitalWrite(organo_start,LOW);
-
-  }
-  // open all
-  else if (input == "_openAll\n"){
-  // open all the doors
-  digitalWrite(M1, LOW);
-  digitalWrite(M2, LOW);
-  digitalWrite(M3, LOW);
-  digitalWrite(M4, LOW);
-  digitalWrite(M5, LOW);
-  digitalWrite(M6, LOW);
-  digitalWrite(M7, HIGH);
-  delay(100);
-  digitalWrite(M7, LOW);
-  digitalWrite(M8, LOW);
-  digitalWrite(M9, LOW);
-  digitalWrite(M10, LOW);
-  digitalWrite(M11, LOW);
-  // switch on all the lights
-  digitalWrite(luce_primo, HIGH);
-  delay(200);
-  digitalWrite(luce_secondo, HIGH);
-  delay(200);
-  digitalWrite(luce_terzo, HIGH);
-  delay(200);
-  digitalWrite(luce_quarto, HIGH);
-  }
-  // Test all pins ON
-  /*else if (input == "_allON\n");
-  for (int i = 22; i < 54; i++){
-    digitalWrite(i, HIGH);
-    Serial.print("Accensione pin: ");
-    Serial.println(i);
-    delay(1000);
-  }
-  */
-  // lettura giochi
-  else if (input == "_lettura\n"){
-  Serial.println("\nLettura input");
-  lettura();
-  }
-
-  // special sound
-  else if (input == "_special1\n"){
-    // change on cross audio
-    digitalWrite(4, 0);
-    digitalWrite(5, 0);
-    myDFPlayer.volume(30); // min = 0 max = 30
-    myDFPlayer.play(8);
-    delay(5000);
-    }
-  else if (input == "_special2\n"){
-    // change on timone audio
-    digitalWrite(4, 1);
-    digitalWrite(5, 1);
-    myDFPlayer.volume(30);
-    myDFPlayer.play(5);
-    delay(5000);
-  }
-  else if (input == "_special3\n"){
-    // change on timone audio
-    digitalWrite(4, 1);
-    digitalWrite(5, 1);
-    myDFPlayer.volume(30);
-    myDFPlayer.play(3);
-    delay(5000);
-  }
-  // test serial
-  else if (input == "_test_on\n")
-  {
-    for (int i = 0; i < 10; i++) {
-    digitalWrite(led, HIGH);
-    delay(100);
-    digitalWrite(led, LOW);
     }
   }
 }
