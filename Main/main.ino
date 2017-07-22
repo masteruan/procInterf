@@ -1,6 +1,6 @@
 /*
  Main Hostel
- 18 Luglio 2017
+ 22 Luglio 2017
  v 1.0
  Input OK
 
@@ -31,14 +31,16 @@
  L2 lampeggiante
 
  INPUT
- G1 tastierino numerico cella uno
- G2 interruttore cella 2 stacca polsi
- G3 cavi jack per scatola cella tre
- G4 deviatori tre posizioni
- G5 leva apricelle
- G6 fusibili corridoio
- G7 detonatore
- G8 scansione retina
+ in_cella1 tastierino numerico cella uno
+ in_cella2 interruttore cella 2 stacca polsi
+ in_cella3 cavi jack per scatola cella tre
+ in_cella4 deviatori tre posizioni
+
+ in_leva leva apricelle
+ in_fusibili fusibili corridoio
+
+ in_grata detonatore
+ in_retina scansione retina
 
  Instructions
  Send to serial
@@ -60,7 +62,7 @@ String input = ""; //String
 char inChar ;
 
 // input Variables
-int games[] = {A0,A1,A2,A3,A4,A5};
+int games[] = {A0,A1,A2,A3,A4,A5,A6,A7};
 
 int in_cella1 = A0;
 boolean sign_cella1 = true;
@@ -78,18 +80,28 @@ int in_cella4 = A3;
 boolean sign_cella4 = true;
 boolean OK_cella4 = false;
 
-int in_fusibili = A4;
+int in_leva = A4;
 boolean sign_fusibili = true;
 boolean OK_fusibili = false;
 
-int in_grata = A5;
+int in_fusibili = A5;
+boolean sign_fusibili = true;
+boolean OK_fusibili = false;
+
+int in_grata = A6;
 boolean sign_grata = true;
 boolean OK_grata = false;
 
+int in_retina = A7;
+boolean sign_retina = true;
+boolean OK_retina = false;
+
 // out
 int M1 = 25; // arduino nella grata
-int L1 = 26; // neon
-int L2 = 27; // lampeggiante
+int M2 = 26; // arduino retina
+
+int L1 = 27; // neon
+int L2 = 28; // lampeggiante
 
 // calamite
 int C1 = 10; //armadio cella uno
@@ -108,6 +120,8 @@ int P5 = 6;
 int P6 = 7;
 int P7 = 8;
 int P8 = 9;
+
+int doors[] = {2,3,4,5,6,7,8,9}; // seven doors
 
 void setup() {
 
@@ -154,8 +168,10 @@ void game () {
       OK_cella2 = false;
       OK_cella3 = false;
       OK_cella4 = false;
+      OK_leva = false;
       OK_fusibili = false;
       OK_grata = false;
+      OK_retina = false;
 
       // Close all doors
       digitalWrite(P1, HIGH);
@@ -178,146 +194,117 @@ void game () {
 
   else if (game_started){
     //digitalWrite(valvole, HIGH);
-    //sign_valvole = digitalRead(in_valvole);
-    if (!sign_valvole && !OK_valvole){
-    Serial.println("valvoleDone");
-    //digitalWrite(danger, HIGH); // switch off "DANGER"
-    //digitalWrite(motore, HIGH); // switch on motor
-    //digitalWrite(M1, LOW); // open the door
-    OK_valvole = true;
+    sign_cella1 = digitalRead(in_cella1);
+    delay(20);
+    sign_cella2 = digitalRead(in_cella2);
+    delay(20);
+    sign_cella3 = digitalRead(in_cella3);
+    delay(20);
+    sign_cella4 = digitalRead(in_cella4);
+
+    if (!sign_cella1 && !OK_cella1){
+    Serial.println("cella1OK");
+    //do anything
+    OK_cella1 = true;
     }
     delay(10);
-    if(OK_valvole){
-    sign_generatore = digitalRead(in_generatore);
+    if (!sign_cella2 && !OK_cella2){
+      Serial.println("cella2OK");
+      //do anything
+      OK_cella2 = true;
     }
-    if ((!sign_generatore || H_generatore) && !OK_generatore){
-    for(int i=0; i <5 ;i++ ) Serial.println("generatoreDone");
-    digitalWrite(luce_quarto, HIGH);
-    //digitalWrite(luce_terzo, HIGH);
-    OK_generatore = true;
+    delay(10);
+    if (!sign_cella3 && !OK_cella3){
+      Serial.println("cella3OK");
+      //do anything
+      OK_cella3 = true;
     }
-    if(OK_generatore){
-    sign_motore = digitalRead(in_motore);
+    delay(10);
+    if (!sign_cella4 && !OK_cella4){
+      Serial.println("cella4OK");
+      //do anything
+      OK_cella4 = true;
     }
-    if ((!sign_motore || H_motore) && !OK_motore){
-    for(int i=0; i <5 ;i++ ) Serial.println("motoreDone");
-    digitalWrite(M2, LOW); // open the door
-    digitalWrite(M11, LOW);
-    delay(2000);
-    //digitalWrite(luce_terzo, LOW);
-    //digitalWrite(luce_quarto, LOW);
-    digitalWrite(monaco, HIGH);
-    OK_motore = true;
+    delay(10);
+
+    if (OK_cella1 && OK_cella2 && OK_cella3 && OK_cella4 && !OK_leva){
+      sign_leva = digitalRead(in_leva);
+      if (!sign_leva){
+        // switch neon, switch on lampeggiante open doors
+        OK_leva = true;
+      }
     }
 
-    // if the players are on the second floor
-    if (second_floor && !OK_secondFloor){
-    digitalWrite(M11, HIGH); //cella croce
-    delay(200);
-    digitalWrite(monaco, LOW);
-    digitalWrite(candele, HIGH);
-    OK_secondFloor = true;
-    }
-    // waiting for operator "_vent" & off tutti i caschi
-    // waiting for operator unlock the BIG BOX (JOHN JAVA) _scatolaGrande
-    if (OK_secondFloor){
-    sign_croce = digitalRead(in_croce);
-    }
-    if ((!sign_croce || H_croce) && !OK_croce){
-    for(int i=0; i <5 ;i++ ) Serial.println("croceDone");
-    digitalWrite(M7, HIGH); //sblocca scatola piccola
-    delay(20);
-    digitalWrite(M11, LOW); //cella della croce
-    delay(20);
-    digitalWrite(foto, HIGH);
-    OK_croce = true;
-    }
-    if(OK_croce) {
-    sign_foto = digitalRead(in_foto);
-    }
-    if ((!sign_foto || H_foto) && !OK_foto){
-    for(int i=0; i <5 ;i++ ) Serial.println("fotoDone");
-    digitalWrite(stereo, HIGH);
-    delay(3000);
-    digitalWrite(culla, HIGH); // accende la culla
-    delay(20);
-    OK_foto = true;
-    }
-    if(OK_foto) {
-    sign_stereo = digitalRead(in_stereo);
-    }
-    if ((!sign_stereo || H_stereo) && !OK_stereo){
-    for(int i=0; i <5 ;i++ ) Serial.println("stereoDone");
-    digitalWrite(culla, LOW);
-    delay(4000);
-    digitalWrite(stereo, LOW);
-    delay(1000);
-    digitalWrite(culla, HIGH);
-    OK_stereo = true;
-    }
-    if(OK_stereo) {
-    sign_culla = digitalRead(in_culla);
-    }
-    if ((!sign_culla || H_culla) && !OK_culla){
-    for(int i=0; i <5 ;i++ ) Serial.println("cullaDone");
-    digitalWrite(M10, LOW); // sblocca cella timone
-    delay(50);
-    // special sound timone
-    digitalWrite(4, 1);
-    digitalWrite(5, 1);
-    myDFPlayer.volume(30); // min = 0 max = 30
-    myDFPlayer.play(3);
-    delay(100);
-    digitalWrite(timone, HIGH);
-    digitalWrite(M7, LOW); //rilascia la calamita scatola piccola
-    OK_culla = true;
-    }
-    if(OK_culla){
-    sign_timone = digitalRead(in_timone);
-    }
-    if ((!sign_timone || H_timone) && !OK_timone) {
-    for(int i=0; i <5 ;i++ ) Serial.println("timoneDone");
-    digitalWrite(M9, LOW); //sblocca la porta per gli orologi
-    digitalWrite(orologi, HIGH);
-    OK_timone = true;
-    }
-    delay(1000);
-    if(OK_timone){
-    sign_orologi = digitalRead(in_orologi);
-    }
-    if ((!sign_orologi || H_orologi) && !OK_orologi) {
-    for(int i=0; i <5 ;i++ ) Serial.println("orologiDone");
-    digitalWrite(M5, LOW);// apre porta per il nano
-    //digitalWrite(luce_primo, HIGH);
-    delay(6000);
-    digitalWrite(nano, HIGH);
-    delay(100);
-    digitalWrite(organo, HIGH);
-    delay(200);
-    digitalWrite(pulsanti, HIGH);
-    OK_orologi = true;
-    }
-    if(OK_orologi){
-    sign_organo = digitalRead(in_interruttori);
-    }
-    if ((!sign_organo || H_organo) && !OK_organo) {
-    for(int i=0; i <5 ;i++ ) Serial.println("organoDone");
-    digitalWrite(nano,LOW);
-    digitalWrite(luce_secondo, HIGH); // accendi la luce finale
-    delay(10000);
-    digitalWrite(mano, HIGH);
-    OK_organo = true;
-    }
-    if(OK_organo){
-    //reset all
+    if (OK_leva && !OK_grata){
+    sign_grata = digitalRead(in_grata);
+    if (!sign_grata){
+      // explosion
+      digitalWrite(M1, HIGH);
+      OK_grata = true;
     }
   }
+    if(OK_grata){
+      digitalWrite(M2, HIGH); // swith on retina
+      sign_retina = digitalRead(in_retina);
+      if (!sign_retina){
+        // the end open the doors
+      }
+    }
 }
 
 
+
 void seriale() {
-  if (input[0] == 'A'){
-    }
+  // open doors
+  if (input[0] == '1'){
+  }
+  else if (input[0] == '2'){
+
+  }
+  else if (input[0] == '3'){
+
+  }
+  else if (input[0] == '4'){
+
+  }
+  else if (input[0] == '5'){
+
+  }
+  else if (input[0] == '6'){
+
+  }
+  else if (input[0] == '7'){
+
+  }
+  else if (input[0] == '8'){
+
+  }
+  // close the doors
+  else if (input[0] == '!'){
+
+  }
+  else if (input[0] == '""'){
+
+  }
+  else if (input[0] == '£'){
+
+  }
+  else if (input[0] == '$'){
+
+  }
+  else if (input[0] == '%'){
+
+  }
+  else if (input[0] == '&'){
+
+  }
+  else if (input[0] == '/'){
+
+  }
+  else if (input[0] == '('){
+
+  }
+  
   else if (input == "_spegni\n") {
 
   }
@@ -331,23 +318,25 @@ void seriale() {
     game_started = false;
   }
 
-  // preparation
-  //(remember the big box that have the "scrocco" not electromagnets)
   else if (input == "_preparation\n" && !preparation){
-  preparation = true;
-  Serial.println("Go to close all the doors!");
+    for (int i = 0; i < 8; i++){
+      digitalWrite(doors[i], HIGH);
+      delay (100);
+    }
   }
-  // open all
-  else if (input == "_openAll\n"){
-  // open all the doors
 
+  else if (input == "_openAll\n"){
+    for (int i = 0; i < 8; i++){
+      digitalWrite(doors[i], LOW);
+      delay (100);
+    }
   }
 }
 
 void lettura() {
   sign_cella1 = digitalRead(in_cella1);
   delay(10);
-  sign_cella2 = !digitalRead(in_cella2);
+  sign_cella2 = digitalRead(in_cella2);
   delay(10);
   sign_cella3 = digitalRead(in_cella3);
   delay(10);
@@ -373,12 +362,20 @@ void lettura() {
     Serial.println("cella quattro OK");
   }
   delay(50);
+  if (!sign_leva){
+    Serial.println("leva OK");
+  }
+  delay(50);
   if (!sign_fusibili){
     Serial.println("fusibili OK");
   }
   delay(50);
   if (!sign_grata){
     Serial.println("grata OK");
+  }
+  delay(50);
+  if (!sign_retina){
+    Serial.println("retina OK");
   }
   Serial.print("\r");
 
