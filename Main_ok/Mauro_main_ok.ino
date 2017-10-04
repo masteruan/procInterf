@@ -1,7 +1,6 @@
 /*
  Main Hostel
- per BreakOut
- 
+
  16 Settembre 2017
  v 1.1
 
@@ -125,7 +124,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   if (stringComplete) {
     //Serial.println(input);
     seriale();
@@ -301,7 +300,7 @@ void game () {
       // reset booleane
       OK_leva = false;
       OK_grata = false;
-      
+
       // Close all doors
       digitalWrite(P1, LOW);
       digitalWrite(P2, LOW);
@@ -321,7 +320,7 @@ void game () {
       Serial.println("gameStarted");
   }
 
-  if (game_started){    
+  if (game_started){
     if (!OK_leva){
       sign_leva = digitalRead(in_leva);
       delay(50);
@@ -357,4 +356,3 @@ void serialEvent() {
     }
   }
 }
-

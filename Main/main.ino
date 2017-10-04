@@ -1,5 +1,5 @@
 /*
- Main Hostel
+ Main
  22 Luglio 2017
  v 1.0
  Input OK
@@ -304,7 +304,7 @@ void seriale() {
   else if (input[0] == '('){
 
   }
-  
+
   else if (input == "_spegni\n") {
 
   }
