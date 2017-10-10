@@ -22,12 +22,16 @@ PImage img;
 color c1 = #FF0000; // red
 color c2 = #FFC000; // orange
 color c3 = #E0FF00; // green
-color c4 = #000000; //black
+color c4 = #000000; // black
+color c5 = #66cd00; // green 2
+color c6 = #FFFF33; // yellow
+color c7 = #33FFFF; // light blue
+color c8 = #FFFFF0; // white
 
 int buttColour = 100;
 int textColour = 0;
-int colors[] = {c3,c2,c4,c1}; // Button colors for column
-int colorsEdge[] = {c2,c2,c4,c2}; // Button colors edge 
+int colors[] = {c5,c6,c4,c1}; // Button colors for column
+int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge 
 
 Serial myPort;  // Create object from Serial class
 final boolean selectSerial = false; // select the selection of serial
@@ -39,11 +43,11 @@ String[] sommario = {""};
 boolean stringComplete = false;
 
 // Buttons variables
-int dimW = 130;
-int dimH = 60;
-int buttonS = 20;
-int buttonT = 100;
-int marginSx = 60;
+int dimW = 300; // 130
+int dimH = 80; // 60
+int buttonS = 40; // Spaziatura Y (20)
+int buttonT = 100; // 100
+int marginSx = 100; // 60
 
 // dimensions game menu
 int menuW = 200;
@@ -51,15 +55,38 @@ int menuH = 500;
 
 // boolean doors switch
 boolean OP1 = false;
-boolean OP2 = false;
-boolean OP3 = false;
-boolean OP4 = false;
-boolean OP5 = false;
-boolean OP6 = false;
-boolean OP7 = false;
-boolean OP8 = false;
+boolean OP11 = false;
+boolean OP12 = false;
 
-int posX[] = {buttonS + marginSx, (dimW + (buttonS*2) + marginSx), ((dimW * 2) + (buttonS * 3) + marginSx), ((dimW * 3) + (buttonS * 4) + marginSx)};
+boolean OP2 = false;
+boolean OP21 = false;
+boolean OP22 = false;
+
+boolean OP3 = false;
+boolean OP31 = false;
+boolean OP32 = false;
+
+boolean OP4 = false;
+boolean OP41 = false;
+boolean OP42 = false;
+
+boolean OP5 = false;
+boolean OP51 = false;
+boolean OP52 = false;
+
+boolean OP6 = false;
+boolean OP61 = false;
+boolean OP62 = false;
+
+boolean OP7 = false;
+boolean OP71 = false;
+boolean OP72 = false;
+
+boolean OP8 = false;
+boolean OP81 = false;
+boolean OP82 = false;
+
+int posX[] = {buttonS + marginSx, (dimW + (buttonS*2) + marginSx), ((dimW * 2) +(buttonS * 3) + marginSx), ((dimW * 3) + (buttonS * 4) + marginSx)};
 
 int posY[] = { buttonS + dimH + buttonT,
               (buttonS*2) + (dimH*2) + buttonT,
@@ -73,14 +100,14 @@ int posY[] = { buttonS + dimH + buttonT,
               (buttonS*10) + (dimH*10) + buttonT,
             };
 
-String[] pulsanti = {"Porta 1",  "Armad 1",    "nome3",     "Start Game",
-                     "Porta 2",  "Polsi",        "nome7",   "Stop Game",
-                     "Porta 3",  "Sca c.3",  "nome11",      "Sequenza Leva",
-                     "Porta 4",  "Sca c.4",  "nome15",      "Sequenza Grata",
-                     "Porta 5",  "Fusibili",     "nome19",  "nome20",
-                     "Porta 6",  "Grata",        "nome23",  "Close all doors",
-                     "Porta 7",  "Neon",         "nome27",   "Open all doors",
-                     "Porta 8",  "Lampe",   "nome31",        "Exit Program"};
+String[] pulsanti = {"Ingresso",  "Armadio",  "nome3",  "Start Game",
+                     "Cella 1",   "Polsini",  "nome7",  "     Leva",
+                     "Cella 2",   "Box 3",    "nome11", "Attiva Grata",
+                     "Cella 3",   "Box 4",    "nome15", "Attiva Vocale",
+                     "Cella 4",   "Fusibili", "nome19", "Luci Neon",
+                     "Fake",      "Grata",    "nome23", "Lampeggiante",
+                     "Ufficio",   "Vocale",   "nome27", "Reset Game",
+                     "Uscita",    "",         "nome31", "Stop Game"};
 
 
 
@@ -89,11 +116,11 @@ int psY[] = {posY[0], posY[1], posY[2], posY[3], posY[4], posY[5], posY[6], posY
 
 void setup(){
  String COMx, COMlist = "";
- size (1024,900);
+ size (1900,1200);
  //size(1900, 1180);
  //fullScreen(); //start at full screen
-
- f = createFont("Roboto",16,true);
+ //f = createFont("Roboto",22,true);
+ f = createFont("viga.otf",22,true);
  img = loadImage("logo.png");
  
  background(255);
@@ -102,7 +129,7 @@ void setup(){
  
  if (!selectSerial){
  printArray(Serial.list());
- String portName = Serial.list()[1]; //change the 0 to a 1 or 2 etc. to match your port
+ String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
  myPort = new Serial(this, portName, 9600);
  }
  
@@ -158,25 +185,11 @@ void draw(){
  noFill();
  
  // Logo
- image(img, 20, 40, 150,50);
+ image(img, 20, 40, 300,100);
  fill(255);
- textSize(60);
- rect(300,80,650,5);
- text("Hostel Control System", 300,80);
- textSize(20);
- 
- // menu giochi
- fill(255);
- rect (width - menuW - buttonS, buttonS + dimH + buttonT, menuW, menuH,7);
- fill(buttColour);
- // Button giochi
- rect (width - menuW - buttonS, (buttonS*8) + (dimH*8) + buttonT, menuW, dimH, 7);
- fill(textColour);
- // Text button giochi
- text("Show games ON", width - dimW - buttonS - 80 + 30,(buttonS*8) + (dimH*8) + buttonT + 40);
- fill(255,0,0);
- text(sommario[0], width - dimW - buttonS - 80 + 30, 220);
- text("Games control", width - dimW - 80, 210);
+ textSize(100);
+ text("Hostel Control System", 470,120);
+ textSize(50);
  
  
  // buttons and buttons text
@@ -196,39 +209,40 @@ void draw(){
      }
      fill(textColour);
      if(i==3){
-     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/2), psY[n]+(dimH/2));
+     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/2) + 20, psY[n]+(dimH/2) + 20);
      }
     else{
-     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/4), psY[n]+(dimH/2));
+     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/4) - 30, psY[n]+(dimH/2) + 20);
     }
  }
  }
  // led port opened
  fill(0,255,0);
  stroke(0);
+ 
  if(OP1){
-   ellipse(psX[0] + (dimW/4) + 80, psY[0]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[0]+(dimH/2) + 20, 20, 20);
  }
  if(OP2){
-   ellipse(psX[0] + (dimW/4) + 80, psY[1]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[1]+(dimH/2) + 20, 20, 20);
  }
  if(OP3){
-   ellipse(psX[0] + (dimW/4) + 80, psY[2]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[2]+(dimH/2) + 20, 20, 20);
  }
  if(OP4){
-   ellipse(psX[0] + (dimW/4) + 80, psY[3]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[3]+(dimH/2) + 20, 20, 20);
  }
  if(OP5){
-   ellipse(psX[0] + (dimW/4) + 80, psY[4]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[4]+(dimH/2) + 20, 20, 20);
  }
  if(OP6){
-   ellipse(psX[0] + (dimW/4) + 80, psY[5]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[5]+(dimH/2) + 20, 20, 20);
  }
  if(OP7){
-   ellipse(psX[0] + (dimW/4) + 80, psY[6]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[6]+(dimH/2) + 20, 20, 20);
  }
  if(OP8){
-   ellipse(psX[0] + (dimW/4) + 80, psY[7]+(dimH/2) + 15, 15,15);
+   ellipse(psX[0] + (dimW/4) + 200, psY[7]+(dimH/2) + 20, 20, 20);
  }
  
  if (stringComplete) {

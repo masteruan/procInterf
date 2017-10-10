@@ -1,32 +1,30 @@
 void mouse() {
 // Mouse Action 
  if(mousePressed){
-  // pulsante menu giochi
-  if(mouseX > 525 && mouseX < 525 + dimW && mouseY > 600 && mouseY < 600 + dimH){
-  delay(200);
-  println("menu giochi");
-  myPort.write("_lettura\n");
-  }
   
   // first raw
   if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH){
    if(!OP1){
-     delay(200);
-     println("apro prima porta");
-     myPort.write("A\n");
+     myPort.write("6\n");
      OP1=true;
+     delay(200);
    }
    else {
-     println("chiudo prima porta");
+     myPort.write("&\n");
      OP1= false;
      delay(200);
    }
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
    delay(200);
-   println("Second button");
-   myPort.write("_spegni\n");
+   myPort.write("Y\n");
+   OP11=true;
   }
+  else {
+     OP11= false;
+     delay(200);
+     myPort.write("&\n");
+   }
   if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
    delay(200);
    println("Thirth button");
@@ -42,13 +40,14 @@ void mouse() {
    if(!OP2){
      delay(200);
      println("apro seconda porta");
-     myPort.write("A\n");
+     myPort.write("5\n");
      OP2=true;
    }
    else {
      println("chiudo seconda porta");
      OP2 = false;
      delay(200);
+     myPort.write("%\n");
    }
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
@@ -69,13 +68,14 @@ void mouse() {
    if(!OP3){
      delay(200);
      println("apro terza porta");
-     myPort.write("A\n");
+     myPort.write("4\n");
      OP3 = true;
    }
    else {
      println("chiudo terza porta");
      OP3 = false;
      delay(200);
+     myPort.write("$\n");
    }
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[2] && mouseY < psY[2] + dimH ){
@@ -96,13 +96,14 @@ void mouse() {
    if(!OP4){
      delay(200);
      println("apro quarta porta");
-     myPort.write("A\n");
+     myPort.write("3\n");
      OP4 = true;
    }
    else {
      println("chiudo quarta porta");
      OP4 = false;
      delay(200);
+     myPort.write("£\n");
    }
   }
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[3] && mouseY < psY[3] + dimH ){
@@ -122,13 +123,14 @@ void mouse() {
    if(!OP5){
      delay(200);
      println("apro quinta porta");
-     myPort.write("A\n");
+     myPort.write("2\n");
      OP5 = true;
    }
    else {
      println("chiudo quinta porta");
      OP5 = false;
      delay(200);
+     myPort.write("\"\n");
    }
   }
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[4] && mouseY < psY[4] + dimH ){
@@ -148,13 +150,14 @@ void mouse() {
    if(!OP6){
      delay(200);
      println("apro seconda porta");
-     myPort.write("A\n");
+     myPort.write("1\n");
      OP6 = true;
    }
    else {
      println("chiudo seconda porta");
      OP6 = false;
      delay(200);
+     myPort.write("!\n");
    }
  }
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[5] && mouseY < psY[5] + dimH ){
@@ -175,13 +178,14 @@ void mouse() {
    if(!OP7){
      delay(200);
      println("apro settima porta");
-     myPort.write("A\n");
+     myPort.write("7\n");
      OP7 = true;
    }
    else {
      println("chiudo settima porta");
      OP7 = false;
      delay(200);
+     myPort.write("/\n");
    }
  }
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[6] && mouseY < psY[6] + dimH ){
@@ -202,13 +206,14 @@ void mouse() {
    if(!OP8){
      delay(200);
      println("apro ottava porta");
-     myPort.write("A\n");
+     myPort.write("8\n");
      OP8 = true;
    }
    else {
      println("chiudo ottava porta");
      OP8 = false;
      delay(200);
+     myPort.write("(\n");
    }
  }
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[7] && mouseY < psY[7] + dimH ){
