@@ -18,12 +18,12 @@ void mouse() {
   
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
     if(!OP11){
-      myPort.write("Y\n");
+      myPort.write("y\n");
       OP11=true;
       delay(bounce);
   }
   else {
-     myPort.write("y\n");
+     myPort.write("Y\n");
      OP11= false;
      delay(bounce);
     }
@@ -60,12 +60,12 @@ void mouse() {
   
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
    if (!OP21){
-     myPort.write("P\n");
+     myPort.write("p\n");
      OP21=true;
      delay(bounce);
   }
   else {
-    myPort.write("p\n");
+    myPort.write("P\n");
     OP21 = false;
     delay(bounce);
   }
@@ -102,12 +102,12 @@ void mouse() {
   
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[2] && mouseY < psY[2] + dimH ){
    if (!OP31){
-    myPort.write("Q\n");
+    myPort.write("q\n");
     OP31 = true;
     delay(bounce);
    }
    else {
-     myPort.write("q\n");
+     myPort.write("Q\n");
      OP31 = false;
      delay(bounce);
    }
@@ -145,12 +145,12 @@ void mouse() {
   
   if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[3] && mouseY < psY[3] + dimH ){
    if (!OP41){
-     myPort.write("W\n");
+     myPort.write("w\n");
      OP41 = true;
      delay(bounce);
   }
   else {
-    myPort.write("w\n");
+    myPort.write("W\n");
     OP41 = false;
     delay(bounce);
   }
@@ -188,12 +188,12 @@ void mouse() {
   
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[4] && mouseY < psY[4] + dimH ){
      if(!OP51){
-       myPort.write("T\n");
+       myPort.write("t\n");
        OP51 = true;
        delay(bounce);
    }
    else {
-     myPort.write("t\n");
+     myPort.write("T\n");
      OP51 = false;
      delay(bounce);
    }
@@ -205,14 +205,14 @@ void mouse() {
    if(mouseX > psX[3] && mouseX < psX[3] + dimW*2 && mouseY > psY[4] && mouseY < psY[4] + dimH ){
    if (!OP52){
      myPort.write("O\n");
-     delay(20);
+     delay(50);
      myPort.write("N\n");
      OP52=true;
      delay(bounce);
    }
    else {
      myPort.write("o\n");
-     delay(20);
+     delay(50);
      myPort.write("n\n");
      OP52=false;
      delay(bounce);
@@ -234,12 +234,12 @@ void mouse() {
  }
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[5] && mouseY < psY[5] + dimH ){
    if (!OP61){
-     myPort.write("D\n");
+     myPort.write("d\n");
      OP61 = true;
      delay(bounce);
    }
    else{
-     myPort.write("d\n");
+     myPort.write("D\n");
      OP61 = false;
      delay(bounce);
    }
@@ -277,12 +277,12 @@ void mouse() {
  
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[6] && mouseY < psY[6] + dimH ){
    if(!OP71){
-     myPort.write("E\n");
+     myPort.write("e\n");
      OP71=true;
      delay(bounce);
   }
   else{
-    myPort.write("e\n");
+    myPort.write("E\n");
     OP71 = false;
     delay(bounce);
   }
