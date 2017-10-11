@@ -1,5 +1,5 @@
 /* Hostel control System
-* 
+* 11 Ottobre 2017
 * 
 * 
 * 
@@ -19,6 +19,8 @@ import processing.serial.*;
 PFont f;
 PImage img;
 
+int bounce = 100; // debounce value
+
 color c1 = #FF0000; // red
 color c2 = #FFC000; // orange
 color c3 = #E0FF00; // green
@@ -34,7 +36,7 @@ int colors[] = {c5,c6,c4,c1}; // Button colors for column
 int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge 
 
 Serial myPort;  // Create object from Serial class
-final boolean selectSerial = false; // select the selection of serial
+final boolean selectSerial = true; // select the selection of serial
 final boolean debug = true;
 
 char inChar;
@@ -243,6 +245,54 @@ void draw(){
  }
  if(OP8){
    ellipse(psX[0] + (dimW/4) + 200, psY[7]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP11){
+   ellipse(psX[1] + (dimW/4) + 200, psY[0]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP21){
+   ellipse(psX[1] + (dimW/4) + 200, psY[1]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP31){
+   ellipse(psX[1] + (dimW/4) + 200, psY[2]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP41){
+   ellipse(psX[1] + (dimW/4) + 200, psY[3]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP51){
+   ellipse(psX[1] + (dimW/4) + 200, psY[4]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP61){
+   ellipse(psX[1] + (dimW/4) + 200, psY[5]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP71){
+   ellipse(psX[1] + (dimW/4) + 200, psY[6]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP81){
+   ellipse(psX[1] + (dimW/4) + 200, psY[7]+(dimH/2) + 20, 20, 20);
+ }
+ if(OP12){
+   ellipse(psX[3] + (dimW/4) + 500, psY[0]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP22){
+   ellipse(psX[3] + (dimW/4) + 500, psY[1]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP32){
+   ellipse(psX[3] + (dimW/4) + 500, psY[2]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP42){
+   ellipse(psX[3] + (dimW/4) + 500, psY[3]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP52){
+   ellipse(psX[3] + (dimW/4) + 500, psY[4]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP62){
+   ellipse(psX[3] + (dimW/4) + 500, psY[5]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP72){
+   ellipse(psX[3] + (dimW/4) + 500, psY[6]+(dimH/2) + 20, 20, 20);
+ }
+  if(OP82){
+   ellipse(psX[3] + (dimW/4) + 500, psY[7]+(dimH/2) + 20, 20, 20);
  }
  
  if (stringComplete) {
