@@ -1,5 +1,5 @@
-/* Hostel control System
-* 11 Ottobre 2017
+/* BK control System
+* 13 Ottobre 2017
 * 
 * 
 * 
@@ -7,8 +7,8 @@
 * Porta1             Null     start
 * Porta2             Null     reset
 * Porta3             Null     spazio
-* Porta4             Null     seq leva
-* Porta5             Null     seq. grata
+* Porta4             Null     seq. 
+* Porta5             Null     seq.
 * Porta6             Null     spazio
 * Porta7             Null     open all
 * Porta8             Null     exit
@@ -102,14 +102,14 @@ int posY[] = { buttonS + dimH + buttonT,
               (buttonS*10) + (dimH*10) + buttonT,
             };
 
-String[] pulsanti = {"Ingresso",  "Armadio",  "nome3",  "Start Game",
-                     "Cella 1",   "Polsini",  "nome7",  "     Leva",
-                     "Cella 2",   "Box 3",    "nome11", "Attiva Grata",
-                     "Cella 3",   "Box 4",    "nome15", "Attiva Vocale",
-                     "Cella 4",   "Fusibili", "nome19", "Luci Neon",
-                     "Fake",      "Grata",    "nome23", "Lampeggiante",
-                     "Ufficio",   "Vocale",   "nome27", "Reset Game",
-                     "Uscita",    "",         "nome31", "Stop Game"};
+String[] pulsanti = {"Porta 1", "Gioco 1", "nome3",  "Start Game",
+                     "Porta 2", "Gioco 2", "nome7",  "Sequenza 1",
+                     "Porta 3", "Gioco 3", "nome11", "Sequenza 2",
+                     "Porta 4", "Gioco 4", "nome15", "Sequenza 3",
+                     "Porta 5", "Gioco 4", "nome19", "    Luci 1",
+                     "Porta 6", "Gioco 5", "nome23", "    Luci 2",
+                     "Porta 7", "Gioco 6", "nome27", "Reset Game",
+                     "Porta 8", "Gioco 7", "nome31", "Stop Game"};
 
 
 
