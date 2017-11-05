@@ -1,9 +1,8 @@
 /*
  Main Hostel
- per BreakOut
 
- 11 Ottobre 2017
- v 1.3
+ 3 Novembre 2017
+ v 1.4
 
  OUTPUT
  Porte
@@ -385,6 +384,11 @@ void game () {
     if (!OK_leva){
       sign_leva = digitalRead(in_leva);
       delay(50);
+      if(!sign_leva){
+          sign_leva = true;
+          delay(300);
+          sign_leva = digitalRead(in_leva);
+      }
       if (!sign_leva||regia_leva){
         // switch neon, switch on lampeggiante open doors
         digitalWrite(L1,HIGH);
