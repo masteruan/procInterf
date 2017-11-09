@@ -1,17 +1,16 @@
 /* Hostel control System
-* 11 Ottobre 2017
-*
-*
-*
-* First    Second    Thirt    Four
-* Porta1             Null     start
-* Porta2             Null     reset
-* Porta3             Null     spazio
-* Porta4             Null     seq leva
-* Porta5             Null     seq. grata
-* Porta6             Null     spazio
-* Porta7             Null     open all
-* Porta8             Null     exit
+*  9 Novembre 2017
+*  Only write on port.
+* 
+*  First    Second    Thirt    Four
+*  Porta1             Null     start
+*  Porta2             Null     reset
+*  Porta3             Null     spazio
+*  Porta4             Null     seq leva
+*  Porta5             Null     seq. grata
+*  Porta6             Null     spazio
+*  Porta7             Null     open all
+*  Porta8             Null     exit
 */
 
 import static javax.swing.JOptionPane.*;
@@ -33,7 +32,7 @@ color c8 = #FFFFF0; // white
 int buttColour = 100;
 int textColour = 0;
 int colors[] = {c5,c6,c4,c1}; // Button colors for column
-int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge
+int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge 
 
 Serial myPort;  // Create object from Serial class
 final boolean selectSerial = false; // select the selection of serial
@@ -45,15 +44,11 @@ String[] sommario = {""};
 boolean stringComplete = false;
 
 // Buttons variables
-int dimW = 300; // 130
-int dimH = 80; // 60
-int buttonS = 40; // Spaziatura Y (20)
-int buttonT = 100; // 100
-int marginSx = 100; // 60
-
-// dimensions game menu
-int menuW = 200;
-int menuH = 500;
+int dimW = 130; // 130
+int dimH = 40; // 60
+int buttonS = 20; // Spaziatura Y (20)
+int buttonT = 50; 
+int marginSx = 20; 
 
 // boolean doors switch
 boolean OP1 = false;
@@ -118,23 +113,21 @@ int psY[] = {posY[0], posY[1], posY[2], posY[3], posY[4], posY[5], posY[6], posY
 
 void setup(){
  String COMx, COMlist = "";
- size (1900,1200);
- //size(1900, 1180);
+ size (800,600);
  //fullScreen(); //start at full screen
- //f = createFont("Roboto",22,true);
  f = createFont("viga.otf",22,true);
  img = loadImage("logo.png");
-
+ 
  background(255);
  stroke(0);
  noFill();
-
+ 
  if (!selectSerial){
  printArray(Serial.list());
  String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
  myPort = new Serial(this, portName, 9600);
  }
-
+ 
  if(selectSerial){
  /*
   Other setup code goes here - I put this at
@@ -185,23 +178,22 @@ void draw(){
  //textSize(20);
  background(0);
  noFill();
-
+ 
  // Logo
- image(img, 20, 40, 300,100);
+ image(img, marginSx+10, 40, 170, 60);
  fill(255);
- textSize(100);
- text("Hostel Control System", 470,120);
- textSize(50);
-
-
+ textSize(40);
+ text("Hostel Control System", 270,80);
+ textSize(27);
+ 
+ 
  // buttons and buttons text
  for (int n = 0; n < 8; n = n+1) {
    for (int i = 0; i < 4; i = i+1) {
-     //fill(buttColour);
      fill(colors[i]);
      stroke(colorsEdge[i]); // shape buttons colour
      strokeWeight(2); // weight of edge
-
+     
      // double last column
      if(i==3){
        rect (psX[i], psY[n], dimW*2, dimH, 7);
@@ -211,88 +203,89 @@ void draw(){
      }
      fill(textColour);
      if(i==3){
-     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/2) + 20, psY[n]+(dimH/2) + 20);
+     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/2), psY[n]+(dimH/2) + 10);
      }
     else{
-     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/4) - 30, psY[n]+(dimH/2) + 20);
+     text (pulsanti[n+n+n+n+i], psX[i] + (dimW/4) - 20, psY[n]+(dimH/2) + 10);
     }
  }
  }
  // led port opened
  fill(0,255,0);
  stroke(0);
-
+ 
  if(OP1){
-   ellipse(psX[0] + (dimW/4) + 200, psY[0]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[0]+(dimH/2) + 10, 10, 10);
  }
  if(OP2){
-   ellipse(psX[0] + (dimW/4) + 200, psY[1]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[1]+(dimH/2) + 10, 10, 10);
  }
  if(OP3){
-   ellipse(psX[0] + (dimW/4) + 200, psY[2]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[2]+(dimH/2) + 10, 10, 10);
  }
  if(OP4){
-   ellipse(psX[0] + (dimW/4) + 200, psY[3]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[3]+(dimH/2) + 10, 10, 10);
  }
  if(OP5){
-   ellipse(psX[0] + (dimW/4) + 200, psY[4]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[4]+(dimH/2) + 10, 10, 10);
  }
  if(OP6){
-   ellipse(psX[0] + (dimW/4) + 200, psY[5]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[5]+(dimH/2) + 10, 10, 10);
  }
  if(OP7){
-   ellipse(psX[0] + (dimW/4) + 200, psY[6]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[6]+(dimH/2) + 10, 10, 10);
  }
  if(OP8){
-   ellipse(psX[0] + (dimW/4) + 200, psY[7]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[0] + (dimW/4) + 90, psY[7]+(dimH/2) + 10, 10, 10);
  }
  if(OP11){
-   ellipse(psX[1] + (dimW/4) + 200, psY[0]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[0]+(dimH/2) + 10, 10, 10);
  }
  if(OP21){
-   ellipse(psX[1] + (dimW/4) + 200, psY[1]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[1]+(dimH/2) + 10, 10, 10);
  }
  if(OP31){
-   ellipse(psX[1] + (dimW/4) + 200, psY[2]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[2]+(dimH/2) + 10, 10, 10);
  }
  if(OP41){
-   ellipse(psX[1] + (dimW/4) + 200, psY[3]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[3]+(dimH/2) + 10, 10, 10);
  }
  if(OP51){
-   ellipse(psX[1] + (dimW/4) + 200, psY[4]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[4]+(dimH/2) + 10, 10, 10);
  }
  if(OP61){
-   ellipse(psX[1] + (dimW/4) + 200, psY[5]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[5]+(dimH/2) + 10, 10, 10);
  }
  if(OP71){
-   ellipse(psX[1] + (dimW/4) + 200, psY[6]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[6]+(dimH/2) + 10, 10, 10);
  }
  if(OP81){
-   ellipse(psX[1] + (dimW/4) + 200, psY[7]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[1] + (dimW/4) + 90, psY[7]+(dimH/2) + 10, 10, 10);
  }
  if(OP12){
-   ellipse(psX[3] + (dimW/4) + 500, psY[0]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[0]+(dimH/2), 10, 10);
  }
   if(OP22){
-   ellipse(psX[3] + (dimW/4) + 500, psY[1]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[1]+(dimH/2), 10, 10);
  }
   if(OP32){
-   ellipse(psX[3] + (dimW/4) + 500, psY[2]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[2]+(dimH/2), 10, 10);
  }
   if(OP42){
-   ellipse(psX[3] + (dimW/4) + 500, psY[3]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[3]+(dimH/2), 10, 10);
  }
   if(OP52){
-   ellipse(psX[3] + (dimW/4) + 500, psY[4]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[4]+(dimH/2), 10, 10);
  }
   if(OP62){
-   ellipse(psX[3] + (dimW/4) + 500, psY[5]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[5]+(dimH/2), 10, 10);
  }
   if(OP72){
-   ellipse(psX[3] + (dimW/4) + 500, psY[6]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[6]+(dimH/2), 10, 10);
  }
   if(OP82){
-   ellipse(psX[3] + (dimW/4) + 500, psY[7]+(dimH/2) + 20, 20, 20);
+   ellipse(psX[3] + (dimW/4), psY[7]+(dimH/2), 10, 10);
  }
+ 
  mouse();
 }
