@@ -74,6 +74,8 @@ int L1 = 10; // neon 1
 int L2 = 11; // neon 2
 int lampeggiante = 12; // lampeggiante
 
+int pauseTens = 20;
+
 // calamite dal 22 al 37
 int C1 = 30; // Armadio cella 3
 int C2 = 31; // Armadio cella 4
@@ -102,6 +104,7 @@ int doors[] = {2,3,4,5,6,7,8,9}; // seven doors
 int armadi[] = {30,31,32,33,34,35,36,37}; // giochi e armadi
 
 void setup() {
+  Serial.flush();
   // Declare output
   // da 2 a 13
   for (int i = 2; i < 14; i++){
@@ -112,6 +115,7 @@ void setup() {
   // da 22 a 42
   for (int i = 22; i < 43; i++){
     pinMode(i, OUTPUT);
+    delay(20);
     digitalWrite(i, HIGH);
   }
   // Declare input
@@ -127,221 +131,19 @@ void setup() {
 
   Serial.println("####################################");
   Serial.println("You are Welcome into Breakout System");
-  Serial.flush();
 }
 
 void loop() {
 
   if (stringComplete) {
-    //Serial.println(input);
     seriale();
+    delay(20);
     input = "";
     stringComplete = false;
   }
   game();
 }
 
-void seriale() {
-  // open doors
-  if (input[0] == '1'){
-    digitalWrite(P1, HIGH);
-  }
-  else if (input[0] == '2'){
-    digitalWrite(P2, HIGH);
-  }
-  else if (input[0] == '3'){
-    digitalWrite(P3, HIGH);
-  }
-  else if (input[0] == '4'){
-    digitalWrite(P4, HIGH);
-  }
-  else if (input[0] == '5'){
-    digitalWrite(P5, HIGH);
-  }
-  else if (input[0] == '6'){
-    digitalWrite(P6, HIGH);
-  }
-  else if (input[0] == '7'){
-    digitalWrite(P7, HIGH);
-  }
-  else if (input[0] == '8'){
-    digitalWrite(P8, HIGH);
-  }
-  // close the doors
-  else if (input[0] == '!'){
-    digitalWrite(P1, LOW);
-  }
-  else if (input[0] == '@'){
-    digitalWrite(P2, LOW);
-  }
-  else if (input[0] == '='){
-    digitalWrite(P3, LOW);
-  }
-  else if (input[0] == '$'){
-    digitalWrite(P4, LOW);
-  }
-  else if (input[0] == '%'){
-    digitalWrite(P5, LOW);
-  }
-  else if (input[0] == '&'){
-    digitalWrite(P6, LOW);
-  }
-  else if (input[0] == '/'){
-    digitalWrite(P7, LOW);
-  }
-  else if (input[0] == '('){
-    digitalWrite(P8, LOW);
-  }
-  // lights
-  else if (input[0] == 'N'){
-    digitalWrite(L1, LOW);
-  }
-  else if (input[0] == 'n'){
-    digitalWrite(L1, HIGH);
-  }
-  else if (input[0] == 'O'){
-    digitalWrite(L2, LOW);
-  }
-  else if (input[0] == 'o'){
-    digitalWrite(L2, HIGH);
-  }
-  else if (input[0] == 'R'){
-    digitalWrite(lampeggiante, LOW);
-  }
-  else if (input[0] == 'r'){
-    digitalWrite(lampeggiante, HIGH);
-  }
-
-  // games
-  else if (input[0] == 'Q'){
-    digitalWrite(C1, LOW);
-  }
-  else if (input[0] == 'q'){
-    digitalWrite(C1, HIGH);
-  }
-  else if (input[0] == 'W'){
-    digitalWrite(C2, LOW);
-  }
-  else if (input[0] == 'w'){
-    digitalWrite(C2, HIGH);
-  }
-  else if (input[0] == 'E'){
-    digitalWrite(C3, LOW);
-  }
-  else if (input[0] == 'e'){
-    digitalWrite(C3, HIGH);
-  }
-  else if (input[0] == 'D'){
-    digitalWrite(C4, LOW);
-  }
-  else if (input[0] == 'd'){
-    digitalWrite(C4, HIGH);
-  }
-  else if (input[0] == 'T'){
-    digitalWrite(C5, LOW);
-  }
-  else if (input[0] == 't'){
-    digitalWrite(C5, HIGH);
-  }
-  else if (input[0] == 'Y'){
-    digitalWrite(C6, LOW);
-  }
-  else if (input[0] == 'y'){
-    digitalWrite(C6, HIGH);
-  }
-  else if (input[0] == 'U'){
-    digitalWrite(C7, LOW);
-  }
-  else if (input[0] == 'u'){
-    digitalWrite(C7, HIGH);
-  }
-  else if (input[0] == 'P'){
-    digitalWrite(C8, LOW);
-  }
-  else if (input[0] == 'p'){
-    digitalWrite(C8, HIGH);
-  }
-  else if (input[0] == 'V'){
-    digitalWrite(G1, LOW);
-  }
-  else if (input[0] == 'v'){
-    digitalWrite(G1, HIGH);
-  }
-  // sequences
-
-  else if (input == "_spegni\n") {
-    for (int i = 0; i < 8; i++){
-      digitalWrite(doors[i], HIGH);
-      delay (100);
-    }
-    for (int i = 0; i < 8; i++){
-      digitalWrite(armadi[i], HIGH);
-      delay (100);
-    }
-    digitalWrite(L1, HIGH);
-    delay(50);
-    digitalWrite(L2, HIGH);
-    delay(50);
-    digitalWrite(lampeggiante, HIGH);
-    delay(50);
-  }
-
-  else if (input == "_lettura\n") {
-    lettura();
-  }
-
-  // start
-  else if (input == "_startGame\n" && !start_game){
-    start_game = true;
-    game_started = false;
-  }
-
-  else if (input == "_reset\n" && !preparation){
-    digitalWrite(L1, LOW);
-    delay(50);
-    digitalWrite(L2, LOW);
-    delay(50);
-    digitalWrite(lampeggiante, HIGH);
-    delay(50);
-    for (int i = 0; i < 8; i++){
-      digitalWrite(doors[i], HIGH);
-      delay (100);
-    }
-  }
-  else if (input == "_leva\n"){
-    regia_leva = true;
-    Serial.println("Leva dalla regia");
-  }
-  else if (input == "_openAll\n"){
-    for (int i = 0; i < 8; i++){
-      digitalWrite(doors[i], HIGH);
-      delay (100);
-    }
-    for (int i = 0; i < 8; i++){
-      digitalWrite(armadi[i], HIGH);
-      delay (100);
-    }
-    digitalWrite(L1, LOW);
-    delay(50);
-    digitalWrite(L2, LOW);
-    delay(50);
-    digitalWrite(lampeggiante, HIGH);
-    delay(50);
-  }
-}
-
-void lettura() {
-  Serial.println("Verify the input");
-  sign_leva = digitalRead(in_leva);
-  delay(10);
-
-  if (!sign_leva){
-    Serial.println("leva OK");
-  }
-  delay(50);
-  Serial.print("\r");
-
-}
 void game () {
    if (start_game){
       // reset booleane
@@ -380,7 +182,7 @@ void game () {
       Serial.println("gameStarted");
   }
 
-  if (game_started){
+  else if (game_started){
     if (!OK_leva){
       sign_leva = digitalRead(in_leva);
       delay(50);
@@ -389,20 +191,20 @@ void game () {
           delay(300);
           sign_leva = digitalRead(in_leva);
       }
-      if (!sign_leva||regia_leva){
-        // switch neon, switch on lampeggiante open doors
-        digitalWrite(L1,HIGH);
-        digitalWrite(L2,HIGH);
-        digitalWrite(lampeggiante, LOW);
-        digitalWrite(P2, HIGH);
-        delay(300);
-        digitalWrite(P3, HIGH);
-        delay(300);
-        digitalWrite(P4, HIGH);
-        delay(300);
-        digitalWrite(P5, HIGH);
-        Serial.println("LEVAOK");
-        OK_leva = true;
+    else if (!sign_leva||regia_leva){
+      // switch neon, switch on lampeggiante open doors
+      digitalWrite(L1,HIGH);
+      digitalWrite(L2,HIGH);
+      digitalWrite(lampeggiante, LOW);
+      digitalWrite(P2, HIGH);
+      delay(300);
+      digitalWrite(P3, HIGH);
+      delay(300);
+      digitalWrite(P4, HIGH);
+      delay(300);
+      digitalWrite(P5, HIGH);
+      Serial.println("LEVAOK");
+      OK_leva = true;
       }
     }
   }
