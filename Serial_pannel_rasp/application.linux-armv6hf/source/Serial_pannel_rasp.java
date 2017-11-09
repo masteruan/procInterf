@@ -1,20 +1,39 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import static javax.swing.JOptionPane.*; 
+import processing.serial.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Serial_pannel_rasp extends PApplet {
+
 // Processing button
 
-import static javax.swing.JOptionPane.*;
-import processing.serial.*;
+
+
 PFont f;
 PImage img;
 
 int bounce = 100; // debounce value
 
-color c1 = #FF0000; // red
-color c2 = #FFC000; // orange
-color c3 = #E0FF00; // green
-color c4 = #000000; // black
-color c5 = #66cd00; // green 2
-color c6 = #FFFF33; // yellow
-color c7 = #33FFFF; // light blue
-color c8 = #FFFFF0; // white
+int c1 = 0xffFF0000; // red
+int c2 = 0xffFFC000; // orange
+int c3 = 0xffE0FF00; // green
+int c4 = 0xff000000; // black
+int c5 = 0xff66cd00; // green 2
+int c6 = 0xffFFFF33; // yellow
+int c7 = 0xff33FFFF; // light blue
+int c8 = 0xffFFFFF0; // white
 
 // boolean doors switch
 boolean OP1 = false;
@@ -80,9 +99,9 @@ int dimH = 80;
 int psX[] = {posX[0], posX[1], posX[2]};
 int psY[] = {posY[0], posY[1], posY[2]};
 
-void setup(){
+public void setup(){
  String COMx, COMlist = "";
- size(480,320);
+ 
  //fullScreen(); //start at full screen
  f = createFont("Arial",16,true);
  //img = loadImage("logo.png");
@@ -110,13 +129,13 @@ void setup(){
         // need to check which port the inst uses -
         // for now we'll just let the user decide
         for (int j = 0; j < i;) {
-          COMlist += char(j+'a') + " = " + Serial.list()[j];
+          COMlist += PApplet.parseChar(j+'a') + " = " + Serial.list()[j];
           if (++j < i) COMlist += ",  ";
         }
         COMx = showInputDialog("Which COM port is correct? (a,b,..):\n"+COMlist);
         if (COMx == null) exit();
         if (COMx.isEmpty()) exit();
-        i = int(COMx.toLowerCase().charAt(0) - 'a') + 1;
+        i = PApplet.parseInt(COMx.toLowerCase().charAt(0) - 'a') + 1;
       }
       String porteName = Serial.list()[i-1];
       if(debug) println(porteName);
@@ -136,13 +155,13 @@ void setup(){
   }
  }
 }
-void keyPressed() {
+public void keyPressed() {
   if (key == 'x') {
     exit();
   }
 }
 
-void draw(){
+public void draw(){
  background(0);
  noFill();
  
@@ -202,11 +221,149 @@ void draw(){
 mouse();
 }
 
-void serialEvent (Serial myPort) {
+public void serialEvent (Serial myPort) {
   inChar = (char)myPort.read();
   input += inChar;
   if(inChar == '\r'){
    stringComplete = true;
   }
 
+}
+public void mouse() {
+ // Mouse Action 
+ if(mousePressed){
+  // Prima riga
+  if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH){
+   if(!OP1){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP1=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP1= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
+   if(!OP2){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP2=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP2= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH ){
+   if(!OP3){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP3=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP3= false;
+     delay(bounce);
+   }
+  }
+  
+  // Seconda riga
+  if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
+   if(!OP4){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP4=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP4= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
+   if(!OP5){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP5=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP5= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[1] && mouseY < psY[1] + dimH ){
+   if(!OP6){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP6=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP6= false;
+     delay(bounce);
+   }
+  }
+  
+  // Terza riga
+  if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[2] && mouseY < psY[2] + dimH ){
+   if(!OP7){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP7=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP7= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[2] && mouseY < psY[2] + dimH ){
+   if(!OP8){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP8=true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP8= false;
+     delay(bounce);
+   }
+  }
+  if(mouseX > psX[2] && mouseX < psX[2] + dimW && mouseY > psY[2] && mouseY < psY[2] + dimH ){
+   if(!OP9){
+     println("Primo bottone");
+     //myPort.write("6\n");
+     OP9 = true;
+     delay(bounce);
+   }
+   else {
+     //myPort.write("&\n");
+     OP9 = false;
+     delay(bounce);
+     exit();
+   }
+  }
+ }
+}
+  public void settings() {  size(480,320); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Serial_pannel_rasp" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
