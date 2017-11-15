@@ -1,6 +1,7 @@
 /* Hostel control System
-*  9 Novembre 2017
+*  15 Novembre 2017
 *  Only write on port.
+*  780x590
 * 
 *  First    Second    Thirt    Four
 *  Porta1             Null     start
@@ -98,13 +99,13 @@ int posY[] = { buttonS + dimH + buttonT,
             };
 
 String[] pulsanti = {"Ingresso",  "Armadio",  "nome3",  "Start Game",
-                     "Cella 1",   "Polsini",  "nome7",  "     Leva",
-                     "Cella 2",   "Box 3",    "nome11", "Attiva Grata",
-                     "Cella 3",   "Box 4",    "nome15", "Attiva Vocale",
-                     "Cella 4",   "Fusibili", "nome19", "Luci Neon",
-                     "Fake",      "Grata",    "nome23", "Lampeggiante",
-                     "Ufficio",   "Vocale",   "nome27", "Reset Game",
-                     "Uscita",    "",         "nome31", "Stop Game"};
+                     " Cella 1",   " Polsini",  "nome7",  "     Leva",
+                     " Cella 2",   "   Box 3",    "nome11", "Attiva Grata",
+                     " Cella 3",   "   Box 4",    "nome15", "Attiva Vocale",
+                     " Cella 4",   "Fusibili", "nome19", "Luci Neon",
+                     "  Fake",      "  Grata",    "nome23", "Lampeggiante",
+                     " Ufficio",   " Vocale",   "nome27", "Reset Game",
+                     " Uscita",    "",         "nome31", "Stop Game"};
 
 
 
@@ -113,7 +114,7 @@ int psY[] = {posY[0], posY[1], posY[2], posY[3], posY[4], posY[5], posY[6], posY
 
 void setup(){
  String COMx, COMlist = "";
- size (800,600);
+ size (780,590);
  //fullScreen(); //start at full screen
  f = createFont("viga.otf",22,true);
  img = loadImage("logo.png");
@@ -183,7 +184,7 @@ void draw(){
  image(img, marginSx+10, 40, 170, 60);
  fill(255);
  textSize(40);
- text("Hostel Control System", 270,80);
+ text("Hostel Control System", 250,80);
  textSize(27);
  
  
