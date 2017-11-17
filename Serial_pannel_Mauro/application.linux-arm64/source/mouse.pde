@@ -1,11 +1,6 @@
 void mouse() {
-// Mouse Action
+// Mouse Action 
  if(mousePressed){
-
-  //exit program
-  if(mouseX > 650 && mouseX < 750 && mouseY > 40 && mouseY < 80){
-  exit();
-  }
   
   // first raw
   if(mouseX > psX[0] && mouseX < psX[0] + dimW && mouseY > psY[0] && mouseY < psY[0] + dimH){
@@ -323,6 +318,7 @@ void mouse() {
    if(mouseX > psX[1] && mouseX < psX[1] + dimW && mouseY > psY[7] && mouseY < psY[7] + dimH ){
    if(!OP81){
    delay(bounce);
+   //myPort.write("\n");
    OP81 = true;
    delay(bounce);
   }

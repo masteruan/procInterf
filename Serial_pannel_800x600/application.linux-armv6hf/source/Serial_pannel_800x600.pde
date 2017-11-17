@@ -2,7 +2,7 @@
 *  15 Novembre 2017
 *  Only write on port.
 *  800x600
-*
+* 
 *  First    Second    Thirt    Four
 *  Porta1             Null     start
 *  Porta2             Null     reset
@@ -34,7 +34,7 @@ color c9 = #C0C0C0; // silver
 int buttColour = 100;
 int textColour = 0;
 int colors[] = {c5,c6,c4,c1}; // Button colors for column
-int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge
+int colorsEdge[] = {c8,c8,c4,c8}; // Button colors edge 
 
 Serial myPort;  // Create object from Serial class
 final boolean selectSerial = false; // select the selection of serial
@@ -49,8 +49,8 @@ boolean stringComplete = false;
 int dimW = 130; // 130
 int dimH = 40; // 60
 int buttonS = 20; // Spaziatura Y (20)
-int buttonT = 50;
-int marginSx = 20;
+int buttonT = 50; 
+int marginSx = 20; 
 
 // boolean doors switch
 boolean OP1 = false;
@@ -119,17 +119,17 @@ void setup(){
  //fullScreen(); //start at full screen
  f = createFont("viga.otf",22,true);
  img = loadImage("logo.png");
-
+ 
  background(255);
  stroke(0);
  noFill();
-
+ 
  if (!selectSerial){
  printArray(Serial.list());
  String portName = Serial.list()[0]; //change the 0 to a 1 or 2 etc. to match your port
  myPort = new Serial(this, portName, 9600);
  }
-
+ 
  if(selectSerial){
  /*
   Other setup code goes here - I put this at
@@ -176,36 +176,36 @@ void keyPressed() {
 }
 
 void draw(){
-
+ 
  textFont(f,20);
  //textSize(20);
  background(0);
  noFill();
-
+ 
  // exit button
  fill(c9);
  stroke(colorsEdge[0]); // shape buttons colour
- strokeWeight(2);
+ strokeWeight(2); 
  rect(650,40,100,40,7);
  fill(c4);
  textSize(27);
  text ("Exit", 673, 70);
-
+     
  // Logo
  image(img, marginSx+40, 50, 100, 30);
  fill(255);
  textSize(40);
  text("Hostel Control System", 210,80);
  textSize(27);
-
-
+ 
+ 
  // buttons and buttons text
  for (int n = 0; n < 8; n = n+1) {
    for (int i = 0; i < 4; i = i+1) {
      fill(colors[i]);
      stroke(colorsEdge[i]); // shape buttons colour
      strokeWeight(2); // weight of edge
-
+     
      // double last column
      if(i==3){
        rect (psX[i], psY[n], dimW*2, dimH, 7);
@@ -225,7 +225,7 @@ void draw(){
  // led port opened
  fill(0,255,0);
  stroke(0);
-
+ 
  if(OP1){
    ellipse(psX[0] + (dimW/4) + 90, psY[0]+(dimH/2) + 10, 10, 10);
  }
@@ -298,6 +298,6 @@ void draw(){
   if(OP82){
    ellipse(psX[3] + (dimW/4), psY[7]+(dimH/2), 10, 10);
  }
-
+ 
  mouse();
 }
